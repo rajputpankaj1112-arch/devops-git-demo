@@ -1,0 +1,25 @@
+---
+- name: playbook for command module
+  hosts: webservers
+  become: yes
+  tasks:
+
+    - name: Run uptime command on slave1/2
+      command: uptime
+      register: uptime_output #saving uptime output in this variable
+
+    - name: Show uptime output
+      debug:
+        var: uptime_output.stdout
+
+    - name: Create a directory u
+      command: mkdir -p /tmp/ansible_demo
+
+    - name: List all files in /tmp
+      shell: ls -l /tmp | grep ansible_demo # important 
+      register: tmp_files   #saving ls -l  output in this variable
+
+
+    - name: Show /tmp directory contents
+      debug:
+        var: tmp_files.stdout_lines
